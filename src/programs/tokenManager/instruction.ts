@@ -1,4 +1,5 @@
 import {
+  MasterEdition,
   Metadata,
   MetadataProgram,
 } from "@metaplex-foundation/mpl-token-metadata";
@@ -346,6 +347,28 @@ export const closeMintManager = async (
   ];
 };
 
+export const initReceiptMintManager = async (
+  connection: Connection,
+  wallet: Wallet
+): Promise<TransactionInstruction> => {
+  const provider = new Provider(connection, wallet, {});
+  const tokenManagerProgram = new Program<TOKEN_MANAGER_PROGRAM>(
+    TOKEN_MANAGER_IDL,
+    TOKEN_MANAGER_ADDRESS,
+    provider
+  );
+
+  const [receiptMintManagerId] = await findReceiptMintManagerId();
+
+  return tokenManagerProgram.instruction.initReceiptMintManager({
+    accounts: {
+      receiptMintManager: receiptMintManagerId,
+      payer: wallet.publicKey,
+      systemProgram: SystemProgram.programId,
+    },
+  });
+};
+
 export const claimReceiptMint = async (
   connection: Connection,
   wallet: Wallet,
@@ -362,10 +385,12 @@ export const claimReceiptMint = async (
 
   const [
     receiptMintMetadataId,
+    receiptMintEditionId,
     recipientTokenAccountId,
     [receiptMintManagerId],
   ] = await Promise.all([
     Metadata.getPDA(receiptMintId),
+    MasterEdition.getPDA(receiptMintId),
     findAta(receiptMintId, wallet.publicKey),
     findReceiptMintManagerId(),
   ]);
@@ -375,6 +400,7 @@ export const claimReceiptMint = async (
       tokenManager: tokenManagerId,
       receiptMint: receiptMintId,
       receiptMintMetadata: receiptMintMetadataId,
+      receiptMintEdition: receiptMintEditionId,
       recipientTokenAccount: recipientTokenAccountId,
       issuer: wallet.publicKey,
       payer: wallet.publicKey,
