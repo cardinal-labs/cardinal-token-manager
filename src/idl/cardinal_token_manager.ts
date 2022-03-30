@@ -294,7 +294,7 @@ export type CardinalTokenManager = {
           isSigner: false;
         },
         {
-          name: "associatedToken";
+          name: "associatedTokenProgram";
           isMut: false;
           isSigner: false;
         },
@@ -335,6 +335,11 @@ export type CardinalTokenManager = {
           isSigner: false;
         },
         {
+          name: "mint";
+          isMut: false;
+          isSigner: false;
+        },
+        {
           name: "issuer";
           isMut: true;
           isSigner: true;
@@ -355,7 +360,17 @@ export type CardinalTokenManager = {
           isSigner: false;
         },
         {
+          name: "associatedTokenProgram";
+          isMut: false;
+          isSigner: false;
+        },
+        {
           name: "systemProgram";
+          isMut: false;
+          isSigner: false;
+        },
+        {
+          name: "rent";
           isMut: false;
           isSigner: false;
         }
@@ -1261,7 +1276,7 @@ export const IDL: CardinalTokenManager = {
           isSigner: false,
         },
         {
-          name: "associatedToken",
+          name: "associatedTokenProgram",
           isMut: false,
           isSigner: false,
         },
@@ -1302,6 +1317,11 @@ export const IDL: CardinalTokenManager = {
           isSigner: false,
         },
         {
+          name: "mint",
+          isMut: false,
+          isSigner: false,
+        },
+        {
           name: "issuer",
           isMut: true,
           isSigner: true,
@@ -1322,7 +1342,17 @@ export const IDL: CardinalTokenManager = {
           isSigner: false,
         },
         {
+          name: "associatedTokenProgram",
+          isMut: false,
+          isSigner: false,
+        },
+        {
           name: "systemProgram",
+          isMut: false,
+          isSigner: false,
+        },
+        {
+          name: "rent",
           isMut: false,
           isSigner: false,
         },
